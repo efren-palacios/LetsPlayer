@@ -21,7 +21,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
-app.use("/letsplay", express.static("./views"));
+app.use("/letsplay", express.static("./public"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
