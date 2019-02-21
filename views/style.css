@@ -35,7 +35,7 @@ h1 {
 }
 
 .controller {
-  background-image: url("/img/controller.png");
+  background-image: url("./img/controller.png");
   width: 600px;
   height: 295px;
   display: inline-block;
