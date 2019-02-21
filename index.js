@@ -60,15 +60,15 @@ app.set("view engine", "ejs");
 app.get(
   "/auth/twitch/callback",
   passport.authenticate("twitch", {
-    failureRedirect: "/error"
+    failureRedirect: "/letsplay/error"
   }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/member");
+    res.redirect("/letsplay/member");
   }
 );
 
-app.get("/member", checkAuth, function(req, res) {
+app.get("/letsplay/member", checkAuth, function(req, res) {
   res.render("member", { user: req.user });
 });
 
@@ -103,7 +103,7 @@ io.on("connection", function(socket) {
 });
 
 app.get("/", function(req, res) {
-  res.redirect("/login");
+  res.redirect("/letsplay/login");
 });
 
 http.listen(3000, function() {
@@ -112,5 +112,5 @@ http.listen(3000, function() {
 
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
-  res.redirect("/");
+  res.redirect("/letsplay");
 }
