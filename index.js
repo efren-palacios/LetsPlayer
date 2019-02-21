@@ -21,7 +21,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
-app.use(express.static("./views"));
+app.use("/letsplay", express.static("./views"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -54,7 +54,7 @@ passport.deserializeUser(function(id, done) {
   done(null, db[id]);
 });
 
-app.use(express.static(path.join(__dirname, "views")));
+app.use("/letsplay", express.static(path.join(__dirname, "views")));
 app.set("view engine", "ejs");
 
 app.get(
