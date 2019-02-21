@@ -102,7 +102,7 @@ io.on("connection", function(socket) {
   });
 });
 
-app.get("/", function(req, res) {
+app.get("/letsplay", function(req, res) {
   res.redirect("/letsplay/login");
 });
 
