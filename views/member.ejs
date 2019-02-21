@@ -143,7 +143,7 @@
         65: "l",
         13: "r"
       };
-      var socket = io();
+      var socket = io.connect("http://localhost:3000");
       var app = new Vue({
         el: "#app",
         data: {
