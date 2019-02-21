@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #2c2541;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+h1 {
+  margin-left: 1em;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.avatar {
+  border: 3px solid white;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.controller {
+  background-image: url("/img/controller.png");
+  width: 600px;
+  height: 295px;
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+
+.dmenu {
+  position: relative;
+  width: 135px;
+  height: 135px;
+  bottom: 250px;
+  left: 215px;
+}
+
+.mpad {
+  border-radius: 50px;
+  width: 25px;
+  height: 55px;
+  transform: rotate(52deg);
+  position: relative;
+  cursor: pointer;
+}
+
+.select {
+  left: 23px;
+  top: 38px;
+}
+
+.start {
+  left: 84px;
+  bottom: 20px;
+}
+
+.dpad {
+  position: relative;
+  border-radius: 50%;
+  width: 135px;
+  height: 135px;
+  top: 90px;
+  left: 72px;
+  display: inline-block;
+}
+
+.tpad {
+  position: relative;
+  width: 600px;
+  height: 55px;
+  bottom: 491px;
+}
+
+.sbutton {
+  position: relative;
+  border-radius: 10px;
+  width: 179px;
+  height: 33px;
+}
+
+.tpad .sl {
+  top: 14px;
+  left: 42px;
+  transform: rotate(175deg);
+  cursor: pointer;
+}
+
+.tpad .sr {
+  bottom: 21px;
+  left: 376px;
+  transform: rotate(187deg);
+  cursor: pointer;
+}
+
+.dbuttons {
+  position: relative;
+  border-radius: 50%;
+  width: 215px;
+  height: 215px;
+  bottom: 97px;
+  left: 358px;
+}
+.dbuttons .cpad {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.dy {
+  top: 80px;
+  left: 28px;
+}
+.dx {
+  bottom: 12px;
+  left: 83px;
+}
+.db {
+  top: 26px;
+  left: 85px;
+}
+.da {
+  bottom: 66px;
+  left: 139px;
+}
+.dpad .cbutton {
+  position: relative;
+  width: 35px;
+  height: 32px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dpad .dup {
+  top: 10px;
+  left: 43.5px;
+}
+.dpad .ddown {
+  top: 44px;
+  left: 43px;
+}
+.dpad .dleft {
+  bottom: 21px;
+  left: 13px;
+}
+.dpad .dright {
+  bottom: 53px;
+  left: 76px;
+}
+
+.dup:hover,
+.ddown:hover,
+.dleft:hover,
+.dright:hover,
+.dy:hover,
+.dx:hover,
+.da:hover,
+.db:hover,
+.start:hover,
+.select:hover,
+.sl:hover,
+.sr:hover {
+  background-color: rgba(0, 0, 200, 0.5);
+}
+
+.active {
+  background-color: rgba(0, 0, 200, 0.5);
+}

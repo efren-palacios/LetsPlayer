@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Lets Play</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="theme-color" content="#191525" />
+  </head>
+  <body>
+    <div class="profile">
+      <div>
+        <img class="avatar" src="<%= user._json.logo %>" />
+      </div>
+      <div>
+        <h1>Welcome <strong><%= user._json.display_name %></strong></h1>
+      </div>
+    </div>
+    <div id="app">
+      <div class="controller">
+        <div class="dpad">
+          <div
+            :class="{active: up}"
+            @mousedown="clickDown('up')"
+            @mouseup="clickUp('up')"
+            @touchstart="clickDown('up')"
+            @touchend="clickUp('up')"
+            class="cbutton dup"
+          ></div>
+          <div
+            :class="{active: down}"
+            @mousedown="clickDown('down')"
+            @mouseup="clickUp('down')"
+            class="cbutton ddown"
+            @touchstart="clickDown('down')"
+            @touchend="clickUp('down')"
+          ></div>
+          <div
+            :class="{active: left}"
+            @mousedown="clickDown('left')"
+            @mouseup="clickUp('left')"
+            class="cbutton dleft"
+            @touchstart="clickDown('left')"
+            @touchend="clickUp('left')"
+          ></div>
+          <div
+            :class="{active: right}"
+            @mousedown="clickDown('right')"
+            @mouseup="clickUp('right')"
+            class="cbutton dright"
+            @touchstart="clickDown('right')"
+            @touchend="clickUp('right')"
+          ></div>
+        </div>
+        <div class="dbuttons">
+          <div
+            :class="{active: y}"
+            @mousedown="clickDown('y')"
+            @mouseup="clickUp('y')"
+            @touchstart="clickDown('y')"
+            @touchend="clickUp('y')"
+            class="cpad dy"
+          ></div>
+          <div
+            :class="{active: x}"
+            @mousedown="clickDown('x')"
+            @mouseup="clickUp('x')"
+            @touchstart="clickDown('x')"
+            @touchend="clickUp('x')"
+            class="cpad dx"
+          ></div>
+          <div
+            :class="{active: b}"
+            @mousedown="clickDown('b')"
+            @mouseup="clickUp('b')"
+            @touchstart="clickDown('b')"
+            @touchend="clickUp('b')"
+            class="cpad db"
+          ></div>
+          <div
+            :class="{active: a}"
+            @mousedown="clickDown('a')"
+            @mouseup="clickUp('a')"
+            @touchstart="clickDown('a')"
+            @touchend="clickUp('a')"
+            class="cpad da"
+          ></div>
+        </div>
+
+        <div class="dmenu">
+          <div
+            :class="{active: select}"
+            @mousedown="clickDown('select')"
+            @mouseup="clickUp('select')"
+            @touchstart="clickDown('select')"
+            @touchend="clickUp('select')"
+            class="mpad select"
+          ></div>
+          <div
+            :class="{active: start}"
+            @mousedown="clickDown('start')"
+            @mouseup="clickUp('start')"
+            @touchstart="clickDown('start')"
+            @touchend="clickUp('start')"
+            class="mpad start"
+          ></div>
+        </div>
+        <div class="tpad">
+          <div
+            :class="{active: l}"
+            @mousedown="clickDown('l')"
+            @mouseup="clickUp('l')"
+            @touchstart="clickDown('l')"
+            @touchend="clickUp('l')"
+            class="sbutton sl"
+          ></div>
+          <div
+            :class="{active: r}"
+            @mousedown="clickDown('r')"
+            @mouseup="clickUp('r')"
+            @touchstart="clickDown('r')"
+            @touchend="clickUp('r')"
+            class="sbutton sr"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <script src="../socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+      const keycodes = {
+        38: "up",
+        40: "down",
+        37: "left",
+        39: "right",
+        86: "a",
+        67: "b",
+        88: "y",
+        68: "x",
+        32: "start",
+        13: "select",
+        65: "l",
+        13: "r"
+      };
+      var socket = io();
+      var app = new Vue({
+        el: "#app",
+        data: {
+          up: false,
+          down: false,
+          left: false,
+          right: false,
+          b: false,
+          a: false,
+          y: false,
+          x: false,
+          start: false,
+          select: false,
+          l: false,
+          r: false
+        },
+        created() {
+          document.onkeydown = this.onkeydown;
+          document.onkeyup = this.onkeyup;
+        },
+        methods: {
+          clickDown: function(button) {
+            socket.emit(
+              button,
+              `<%= user._json.display_name %> has pressed ${button}`
+            );
+          },
+          clickUp: function(button) {
+            socket.emit(
+              `r${button}`,
+              `<%= user._json.display_name %> has released ${button}`
+            );
+          },
+          onkeydown(e) {
+            e.preventDefault();
+            Object.keys(keycodes).forEach(key => {
+              if (e.keyCode == key) {
+                let code = keycodes[key];
+                this[code] = true;
+                socket.emit(
+                  `r${code}`,
+                  `<%= user._json.display_name %> has pressed ${keycodes[key]}`
+                );
+              }
+            });
+            /*             if (e.keyCode == 38) {
+              this.up = true;
+              socket.emit(
+                "up",
+                "<%= user._json.display_name %> has pressed up"
+              );
+              console.log("pressed up!");
+            }
+            if (e.keyCode == 40) {
+              this.down = true;
+              socket.emit(
+                "down",
+                "<%= user._json.display_name %> has pressed down"
+              );
+              console.log("pressed down");
+            }
+            if (e.keyCode == 37) {
+              this.left = true;
+              socket.emit(
+                "left",
+                "<%= user._json.display_name %> has pressed left"
+              );
+              console.log("pressed left");
+            }
+            if (e.keyCode == 39) {
+              this.right = true;
+              socket.emit(
+                "right",
+                "<%= user._json.display_name %> has pressed right"
+              );
+              console.log("pressed right");
+            }
+            if (e.keyCode == 86) {
+              this.a = true;
+              socket.emit("a", "<%= user._json.display_name %> has pressed a");
+              console.log("pressed a");
+            }
+            if (e.keyCode == 67) {
+              this.b = true;
+              socket.emit("b", "<%= user._json.display_name %> has pressed b");
+              console.log("pressed b");
+            }
+            if (e.keyCode == 88) {
+              this.y = true;
+              socket.emit("y", "<%= user._json.display_name %> has pressed y");
+              console.log("pressed y");
+            }
+            if (e.keyCode == 68) {
+              this.x = true;
+              socket.emit("x", "<%= user._json.display_name %> has pressed x");
+              console.log("pressed x");
+            }
+            if (e.keyCode == 32) {
+              this.start = true;
+              socket.emit(
+                "start",
+                "<%= user._json.display_name %> has pressed x"
+              );
+              console.log("pressed start"); 
+            }
+            if (e.keyCode == 13) {
+              this.select = true;
+              socket.emit(
+                "select",
+                "<%= user._json.display_name %> has pressed x"
+              );
+              console.log("pressed select");
+            } */
+          },
+          onkeyup(e) {
+            e.preventDefault();
+            Object.keys(keycodes).forEach(key => {
+              if (e.keyCode == key) {
+                console.log(keycodes[key]);
+                let code = keycodes[key];
+                this[code] = false;
+                socket.emit(
+                  code,
+                  `<%= user._json.display_name %> has released ${keycodes[key]}`
+                );
+              }
+            });
+            /* if (e.keyCode == 38) {
+              this.up = false;
+              socket.emit(
+                "rup",
+                "<%= user._json.display_name %> has released up"
+              );
+            }
+            if (e.keyCode == 40) {
+              this.down = false;
+              socket.emit(
+                "rdown",
+                "<%= user._json.display_name %> has released down"
+              );
+            }
+            if (e.keyCode == 37) {
+              this.left = false;
+              socket.emit(
+                "rleft",
+                "<%= user._json.display_name %> has released left"
+              );
+            }
+            if (e.keyCode == 39) {
+              this.right = false;
+              socket.emit(
+                "rright",
+                "<%= user._json.display_name %> has released right"
+              );
+            }
+            if (e.keyCode == 86) {
+              this.a = true;
+              socket.emit(
+                "ra",
+                "<%= user._json.display_name %> has released a"
+              );
+              console.log("pressed a");
+            }
+            if (e.keyCode == 67) {
+              this.b = true;
+              socket.emit(
+                "rb",
+                "<%= user._json.display_name %> has released b"
+              );
+              console.log("pressed b");
+            }
+            if (e.keyCode == 88) {
+              this.y = true;
+              socket.emit(
+                "ry",
+                "<%= user._json.display_name %> has released y"
+              );
+              console.log("pressed y");
+            }
+            if (e.keyCode == 68) {
+              this.x = true;
+              socket.emit(
+                "rx",
+                "<%= user._json.display_name %> has released x"
+              );
+              console.log("pressed x");
+            } */
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

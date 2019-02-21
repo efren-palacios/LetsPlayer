@@ -1,0 +1,32 @@
+{
+  "name": "letsplay",
+  "version": "1.0.0",
+  "description": "a webapp to play on twitch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orctamer/LetsPlayer.git"
+  },
+  "keywords": [
+    "lets",
+    "play"
+  ],
+  "author": "orctamer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orctamer/LetsPlayer/issues"
+  },
+  "homepage": "https://github.com/orctamer/LetsPlayer#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "passport": "^0.4.0",
+    "passport-twitch": "^1.0.3",
+    "robotjs": "^0.5.1",
+    "socket.io": "^2.2.0"
+  }
+}
