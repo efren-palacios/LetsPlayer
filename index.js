@@ -21,7 +21,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
-app.use(express.static("./public"));
+app.use(express.static("./views"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,7 +58,7 @@ app.use(express.static(path.join(__dirname, "views")));
 app.set("view engine", "ejs");
 
 app.get(
-  "/auth/twitch/callback",
+  "/letsplay/auth/twitch/callback",
   passport.authenticate("twitch", {
     failureRedirect: "/letsplay/error"
   }),
@@ -72,7 +72,10 @@ app.get("/letsplay/member", checkAuth, function(req, res) {
   res.render("member", { user: req.user });
 });
 
-app.get("/login", passport.authenticate("twitch"), function(req, res) {});
+app.get("/letsplay/login", passport.authenticate("twitch"), function(
+  req,
+  res
+) {});
 
 const keymap = {
   up: "up",
