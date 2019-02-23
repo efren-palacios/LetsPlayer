@@ -72,6 +72,10 @@ app.get("/letsplay/member", checkAuth, function(req, res) {
   res.render("member", { user: req.user });
 });
 
+app.get("/letsplay/console", function(req, res) {
+  res.render("console");
+});
+
 app.get("/letsplay/login", passport.authenticate("twitch"), function(
   req,
   res
@@ -93,13 +97,17 @@ const keymap = {
 };
 
 io.on("connection", function(socket) {
+  console.log("user has connected");
   Object.keys(keymap).forEach(wsKey => {
     socket.on(wsKey, msg => {
+      console.log(msg);
       robot.keyToggle(keymap[wsKey], "down");
+      socket.emit("key press", msg);
     });
   });
   Object.keys(keymap).forEach(wsKey => {
     socket.on(`r${wsKey}`, msg => {
+      console.log(msg);
       robot.keyToggle(keymap[wsKey], "up");
     });
   });
@@ -109,8 +117,8 @@ app.get("/letsplay", function(req, res) {
   res.redirect("/letsplay/login");
 });
 
-http.listen(3000, function() {
-  console.log("listening on port 3000");
+http.listen(7911, function() {
+  console.log("listening on port 7911");
 });
 
 function checkAuth(req, res, next) {

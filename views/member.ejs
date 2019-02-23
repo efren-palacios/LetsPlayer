@@ -143,7 +143,7 @@
         65: "l",
         13: "r"
       };
-      var socket = io.connect("http://localhost:3000");
+      var socket = io("http://76.171.69.252:7911");
       var app = new Vue({
         el: "#app",
         data: {
@@ -161,8 +161,8 @@
           r: false
         },
         created() {
-          document.onkeydown = this.onkeydown;
-          document.onkeyup = this.onkeyup;
+          document.onkeydown = this.onkeydown.bind(this);
+          document.onkeyup = this.onkeyup.bind(this);
         },
         methods: {
           clickDown: function(button) {
@@ -179,158 +179,18 @@
           },
           onkeydown(e) {
             e.preventDefault();
-            Object.keys(keycodes).forEach(key => {
-              if (e.keyCode == key) {
-                let code = keycodes[key];
-                this[code] = true;
-                socket.emit(
-                  `r${code}`,
-                  `<%= user._json.display_name %> has pressed ${keycodes[key]}`
-                );
-              }
-            });
-            /*             if (e.keyCode == 38) {
-              this.up = true;
-              socket.emit(
-                "up",
-                "<%= user._json.display_name %> has pressed up"
-              );
-              console.log("pressed up!");
-            }
-            if (e.keyCode == 40) {
-              this.down = true;
-              socket.emit(
-                "down",
-                "<%= user._json.display_name %> has pressed down"
-              );
-              console.log("pressed down");
-            }
-            if (e.keyCode == 37) {
-              this.left = true;
-              socket.emit(
-                "left",
-                "<%= user._json.display_name %> has pressed left"
-              );
-              console.log("pressed left");
-            }
-            if (e.keyCode == 39) {
-              this.right = true;
-              socket.emit(
-                "right",
-                "<%= user._json.display_name %> has pressed right"
-              );
-              console.log("pressed right");
-            }
-            if (e.keyCode == 86) {
-              this.a = true;
-              socket.emit("a", "<%= user._json.display_name %> has pressed a");
-              console.log("pressed a");
-            }
-            if (e.keyCode == 67) {
-              this.b = true;
-              socket.emit("b", "<%= user._json.display_name %> has pressed b");
-              console.log("pressed b");
-            }
-            if (e.keyCode == 88) {
-              this.y = true;
-              socket.emit("y", "<%= user._json.display_name %> has pressed y");
-              console.log("pressed y");
-            }
-            if (e.keyCode == 68) {
-              this.x = true;
-              socket.emit("x", "<%= user._json.display_name %> has pressed x");
-              console.log("pressed x");
-            }
-            if (e.keyCode == 32) {
-              this.start = true;
-              socket.emit(
-                "start",
-                "<%= user._json.display_name %> has pressed x"
-              );
-              console.log("pressed start"); 
-            }
-            if (e.keyCode == 13) {
-              this.select = true;
-              socket.emit(
-                "select",
-                "<%= user._json.display_name %> has pressed x"
-              );
-              console.log("pressed select");
-            } */
+            let code = keycodes[e.keyCode];
+            if (code === undefined) return;
+            this[code] = true;
+            `<%= user.button %>` = keycodes[e.keyCode]
+            socket.emit(code, `<%= user %>`);
           },
           onkeyup(e) {
             e.preventDefault();
-            Object.keys(keycodes).forEach(key => {
-              if (e.keyCode == key) {
-                console.log(keycodes[key]);
-                let code = keycodes[key];
-                this[code] = false;
-                socket.emit(
-                  code,
-                  `<%= user._json.display_name %> has released ${keycodes[key]}`
-                );
-              }
-            });
-            /* if (e.keyCode == 38) {
-              this.up = false;
-              socket.emit(
-                "rup",
-                "<%= user._json.display_name %> has released up"
-              );
-            }
-            if (e.keyCode == 40) {
-              this.down = false;
-              socket.emit(
-                "rdown",
-                "<%= user._json.display_name %> has released down"
-              );
-            }
-            if (e.keyCode == 37) {
-              this.left = false;
-              socket.emit(
-                "rleft",
-                "<%= user._json.display_name %> has released left"
-              );
-            }
-            if (e.keyCode == 39) {
-              this.right = false;
-              socket.emit(
-                "rright",
-                "<%= user._json.display_name %> has released right"
-              );
-            }
-            if (e.keyCode == 86) {
-              this.a = true;
-              socket.emit(
-                "ra",
-                "<%= user._json.display_name %> has released a"
-              );
-              console.log("pressed a");
-            }
-            if (e.keyCode == 67) {
-              this.b = true;
-              socket.emit(
-                "rb",
-                "<%= user._json.display_name %> has released b"
-              );
-              console.log("pressed b");
-            }
-            if (e.keyCode == 88) {
-              this.y = true;
-              socket.emit(
-                "ry",
-                "<%= user._json.display_name %> has released y"
-              );
-              console.log("pressed y");
-            }
-            if (e.keyCode == 68) {
-              this.x = true;
-              socket.emit(
-                "rx",
-                "<%= user._json.display_name %> has released x"
-              );
-              console.log("pressed x");
-            } */
+            let code = keycodes[e.keyCode];
+            if (code === undefined) return;
+            this[code] = false;
+            socket.emit(`r${code}`, `<%= user %>`);
           }
         }
       });
