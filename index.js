@@ -102,7 +102,7 @@ io.on("connection", function(socket) {
     socket.on(wsKey, msg => {
       console.log(msg);
       robot.keyToggle(keymap[wsKey], "down");
-      socket.emit("key press", msg);
+      io.emit("key press", msg);
     });
   });
   Object.keys(keymap).forEach(wsKey => {

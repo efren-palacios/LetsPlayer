@@ -9,24 +9,74 @@
     <meta name="theme-color" content="#191525" />
   </head>
   <body>
-    <div id="app">{{ username }} {{ key }}</div>
+    <div id="app">
+      <div class="input">
+        <div class="logo">
+          <img class="img" :src="img" alt="" />
+        </div>
+        <div class="info">
+          <div class="name">{{ username }}</div>
+          <div class="key">{{ key }}</div>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script>
     var socket = io("http://76.171.69.252:7911");
+    var keys = {
+      up: "↑",
+      down: "↓",
+      right: "→",
+      left: "←",
+      a: "Ⓐ",
+      b: "Ⓑ",
+      x: "Ⓧ",
+      y: "Ⓨ",
+      l: "Ⓛ",
+      r: "Ⓡ",
+      start: "ⓈⓉ",
+      select: "ⓈⓁ"
+    };
     var app = new Vue({
       el: "#app",
       data: {
         username: "",
-        key: ""
+        key: "",
+        img:
+          "https://d1qb2nb5cznatu.cloudfront.net/startups/i/114142-19c0993bf69c468f1350fd422bfad6b2-medium_jpg.jpg"
       },
-      created() {
-        socket.on("key press", function(msg) {
-          this.username = msg._json.display_name;
-          this.key = msg.button;
+      mounted() {
+        socket.on("key press", msg => {
+          this.username = msg.displayName + ": ";
+          this.key = keys[msg.button];
+          this.img = msg._json.logo;
         });
       }
     });
   </script>
+  <style>
+    .input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .key {
+      font-size: 32px;
+      font-weight: bold;
+      align-self: center;
+    }
+    .img {
+      border: 2px solid white;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 1em;
+    }
+  </style>
 </html>

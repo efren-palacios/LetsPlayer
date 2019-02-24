@@ -7,7 +7,7 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
+  margin-top: 2em;
 }
 
 .profile {
@@ -25,6 +25,7 @@ h1 {
   display: flex;
   justify-content: center;
   margin-top: 1em;
+  flex-direction: column;
 }
 
 .avatar {
@@ -40,6 +41,7 @@ h1 {
   height: 295px;
   display: inline-block;
   background-repeat: no-repeat;
+  margin: 0 auto;
 }
 
 .dmenu {

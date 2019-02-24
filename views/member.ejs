@@ -125,6 +125,14 @@
           ></div>
         </div>
       </div>
+      <div style="margin: 0 auto;">
+        <p style="text-align: center;"><u>Keyboard Hotkeys</u></p>
+        <p>
+          ⒶⒷⓍⓎⓁⓇ [V,C,D,X,A,S]
+        </p>
+        <p>Start/Select [Space/Enter]</p>
+        <p>D-Pad [Arrow Keys]</p>
+      </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -141,7 +149,7 @@
         32: "start",
         13: "select",
         65: "l",
-        13: "r"
+        83: "r"
       };
       var socket = io("http://76.171.69.252:7911");
       var app = new Vue({
@@ -166,31 +174,36 @@
         },
         methods: {
           clickDown: function(button) {
+            let user = <%-JSON.stringify(user)%>;
+            user.button = button
             socket.emit(
               button,
-              `<%= user._json.display_name %> has pressed ${button}`
+              user
             );
           },
           clickUp: function(button) {
+            let user = <%-JSON.stringify(user)%>;
+            user.button = button
             socket.emit(
-              `r${button}`,
-              `<%= user._json.display_name %> has released ${button}`
-            );
+              `r${button}`, user);
           },
           onkeydown(e) {
             e.preventDefault();
             let code = keycodes[e.keyCode];
             if (code === undefined) return;
             this[code] = true;
-            `<%= user.button %>` = keycodes[e.keyCode]
-            socket.emit(code, `<%= user %>`);
+            let user = <%-JSON.stringify(user)%>;
+            user.button = keycodes[e.keyCode]
+            socket.emit(code, user);
           },
           onkeyup(e) {
             e.preventDefault();
             let code = keycodes[e.keyCode];
             if (code === undefined) return;
             this[code] = false;
-            socket.emit(`r${code}`, `<%= user %>`);
+            let user = <%-JSON.stringify(user)%>;
+            user.button = keycodes[e.keyCode]
+            socket.emit(`r${code}`, user);
           }
         }
       });
