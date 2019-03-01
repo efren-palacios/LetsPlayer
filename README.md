@@ -1,2 +1,5 @@
 # Lets-Player
-Controller App for Let's Play
+
+![logo](/views/img/controller.png)
+
+Sockets.io project using Twitch-Auth and Robotjs
